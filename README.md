@@ -49,6 +49,9 @@ contacthelper
 
 #### Basic Contact Operations
 
+- `all` - print all contacts in table-like view, sorted by name ASC
+  - Example: `delete John`
+
 - `add <name> [phone] [email] [birthday]` - Add a new contact
   - Birthday format: YYYY-MM-DD
   - Example: `add John +380501234567 john@example.com 1990-05-15`

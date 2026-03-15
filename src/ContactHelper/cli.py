@@ -129,20 +129,18 @@ def upcome_birthdays(args: list[str], book: AddressBook):
     print(f"You have {len(bdays)} birthdays next {days} days:")
     print(format_contacts_table(bdays))
 
-    
+
 @input_error
 def print_all(book: AddressBook):
-    print(f"Try to print represent 10 ")
-    represent = book.sorted_by(SortedKey.NAME) # (SortedKey['NAME']
+    represent = book.sorted_by(SortedKey.NAME)
     if not represent or len(represent) == 0:
-        print("Nothing to print")  
+        print("Nothing to print")
         return
-    print(f"Try to print represent 20")
 
     print(f"Version: {Fore.RED}{book.version}{Fore.RESET}",
           f" | Contacs avaliable: {len(represent)}")
     print("List of your contacts sorted by 'name'\n")
-    print(format_contacts_table(represent))    
+    print(format_contacts_table(represent))
     print(f"\nFor details use command {Fore.YELLOW}get{Fore.RESET} <name>")
 
 
@@ -166,9 +164,9 @@ def search_by(args: list[str], book: AddressBook):
 
     if contacts and len(contacts) > 0:
         print(f"Your result is {len(contacts)} contacts",
-               f"by searching '{keywoard}' in '{field}'")
+               f"by searching '{keywoard}' in '{field}'\n")
         print(format_contacts_table(contacts))
-        print(f"for details use command {Fore.YELLOW}get{Fore.RESET} <name>")
+        print(f"\nFor details use command {Fore.YELLOW}get{Fore.RESET} <name>")
     else:
         print(f"No results for searching '{keywoard}' in '{field}'")
 
