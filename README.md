@@ -12,6 +12,7 @@ A command-line interface (CLI) tool for managing personal contacts and address b
 - **Persistent Storage**: Data is automatically saved to a local file
 - **Colored Output**: Enhanced CLI experience with color-coded information
 - **Validation**: Built-in validation for phone numbers, emails, and dates
+- **Table Display**: Search results are displayed in a clean tabular format for better readability
 
 ## Installation
 
@@ -139,7 +140,9 @@ You add tags: friend to the 'Alice'
 ```
 Enter command: find-by tag friend
 Your result is 1 contacts by searching 'friend' in 'tag'
-    - Alice
+Name    | Phones          | Email             | Birthday   | Tags
+--------+-----------------+-------------------+------------+--------
+Alice   | +380501234567   | alice@example.com | 1985-03-20 |
 for details use command get <name>
 
 Enter command: get Alice

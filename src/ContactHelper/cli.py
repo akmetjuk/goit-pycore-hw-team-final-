@@ -4,12 +4,13 @@ from src.ContactHelper.logger import setup_logger
 import difflib
 import pathlib
 from colorama import init, Fore
+from ContactHelper.models.enums import SortedKey
 
 init(autoreset=True)
 logger = setup_logger()
 logger.info("Application started")
 
-__commands__ = ["add", "get", "delete", "find-by"
+__commands__ = ["add", "get", "delete", "find-by", "all",
                 "update-phone",
                 "set-birthday", "upcome-birthdays",
                 "set-note", "delete-note",
@@ -128,6 +129,22 @@ def upcome_birthdays(args: list[str], book: AddressBook):
     print(f"You have {len(bdays)} birthdays next {days} days:")
     print(format_contacts_table(bdays))
 
+    
+@input_error
+def print_all(book: AddressBook):
+    print(f"Try to print represent 10 ")
+    represent = book.sorted_by(SortedKey.NAME) # (SortedKey['NAME']
+    if not represent or len(represent) == 0:
+        print("Nothing to print")  
+        return
+    print(f"Try to print represent 20")
+
+    print(f"Version: {Fore.RED}{book.version}{Fore.RESET}",
+          f" | Contacs avaliable: {len(represent)}")
+    print("List of your contacts sorted by 'name'\n")
+    print(format_contacts_table(represent))    
+    print(f"\nFor details use command {Fore.YELLOW}get{Fore.RESET} <name>")
+
 
 @input_error
 def search_by(args: list[str], book: AddressBook):
@@ -150,8 +167,7 @@ def search_by(args: list[str], book: AddressBook):
     if contacts and len(contacts) > 0:
         print(f"Your result is {len(contacts)} contacts",
                f"by searching '{keywoard}' in '{field}'")
-        for c in contacts:
-            print(f"{" " * 4}- {Fore.GREEN}{c.name}{Fore.RESET}")
+        print(format_contacts_table(contacts))
         print(f"for details use command {Fore.YELLOW}get{Fore.RESET} <name>")
     else:
         print(f"No results for searching '{keywoard}' in '{field}'")
@@ -252,6 +268,10 @@ def print_help():
     print(f"{" "*4}{Fore.YELLOW}help{Fore.RESET}")
     print(f"{" "*8}Show this help message.")
     print("")
+    print(f"{" "*4}{Fore.YELLOW}all{Fore.RESET}")
+    print(f"{" "*8}Show all contacts in tablelike view,",
+          "sorted by name ASC")
+    print("")
     print(f"{" "*4}{Fore.YELLOW}add{Fore.RESET}",
           "<name> [phone] [email] [birthday]")
     print(f"{" "*8}Add new contact.")
@@ -338,6 +358,9 @@ def main():
         # ===== help =====
         elif command == "help":
             print_help()
+
+        elif command == "all":
+            print_all(book)
 
         # ===== add =====
         elif command == "add":

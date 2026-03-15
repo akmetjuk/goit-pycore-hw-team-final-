@@ -2,6 +2,8 @@ from ContactHelper.core import AddressBook
 from ContactHelper.models.contact import Contact
 from datetime import datetime, timedelta
 
+from ContactHelper.models.enums import SortedKey
+
 def test_logger_setup():
     from ContactHelper.logger import setup_logger
     logger = setup_logger()
@@ -142,3 +144,14 @@ def test_find_by_name():
 
     result = book.search_by_name("as")
     assert len(result) == 2
+
+def test_sorting_function():
+    book: AddressBook = AddressBook()
+    book.add_contact(name="Mike#3")
+    book.add_contact(name="Alise#1")
+    book.add_contact(name="Asman#1")
+    book.add_contact(name="Andrii#2")
+    book.add_contact(name="Taras#4")
+
+    result = book.sorted_by(SortedKey['NAME'])
+    assert result[4].name == "Taras#4"

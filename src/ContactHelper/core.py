@@ -158,14 +158,14 @@ class AddressBook(UserDict):
         if not self.data:
             return []
         if key == SortedKey.NAME:
-            sortedkey = lambda contact: contact.name.lower()
+            sortedkey = lambda contact: contact._name.lower()
         elif key == SortedKey.BIRTHDAY:
             sortedkey = lambda contact: contact.birthday if contact.birthday else datetime.max
         elif key == SortedKey.TAG:
             sortedkey = lambda contact: sorted(contact.tags)
-        elif key == SortedKey.CREATION_DATE:
+        elif key == SortedKey.CREATED_AT:
             sortedkey = lambda contact: contact.created_date
-        elif key == SortedKey.MODIFICATION_DATE:
+        elif key == SortedKey.CHANGED_AT:
             sortedkey = lambda contact: contact.changed_date
         else:
             raise ValueError((
