@@ -1,6 +1,7 @@
 from datetime import datetime
-from src.ContactHelper.utils import validate_phone_number, validate_email
+from ContactHelper.utils import validate_phone_number, validate_email
 from colorama import init, Fore
+#from src.ContactHelper.utils import validate_phone_number, validate_email
 
 
 class Field:

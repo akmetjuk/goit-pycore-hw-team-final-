@@ -125,10 +125,12 @@ def test_upcoming_birthdays():
     book.add_contact(name="Zoltan#2", birthday=f"2002-{next_bd.month}-{next_bd.day}")
     next_bd = today + timedelta (weeks=16)
     book.add_contact(name="Geralt#4", birthday=f"2012-{next_bd.month}-{next_bd.day}")
+    next_bd = today + timedelta (weeks=16)
+    book.add_contact(name="Fill#5")
 
     upcome_db = book.get_upcoming_birthdays(days = 364)
     
-    assert len(upcome_db) > 0
+    assert len(upcome_db) == 4
     assert upcome_db[0].name == "Alise#1"
     assert upcome_db[1].name == "Zoltan#2"
     assert upcome_db[2].name == "Mike#3"

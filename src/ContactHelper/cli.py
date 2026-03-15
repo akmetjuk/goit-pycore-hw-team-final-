@@ -1,6 +1,9 @@
-from src.ContactHelper.core import AddressBook
-from src.ContactHelper.models.contact import Contact
-from src.ContactHelper.logger import setup_logger
+# from src.ContactHelper.core import AddressBook
+# from src.ContactHelper.models.contact import Contact
+# from src.ContactHelper.logger import setup_logger
+from ContactHelper.core import AddressBook
+from ContactHelper.models.contact import Contact
+from ContactHelper.logger import setup_logger
 import difflib
 import pathlib
 from colorama import init, Fore
@@ -41,11 +44,10 @@ def format_contact(contact: Contact) -> str:
     lines = []
     lines.append(f"{" "*4}{Fore.GREEN}Name{Fore.RESET}: {contact.name}")
 
-    # телефони
+    # телефони    
+    phones_str = "—"
     if contact.phones:
         phones_str = ", ".join(p.value for p in contact.phones)
-    else:
-        phones_str = "—"
     lines.append(f"{" "*4}{Fore.GREEN}Phones{Fore.RESET}: {phones_str}")
 
     # email
@@ -58,8 +60,7 @@ def format_contact(contact: Contact) -> str:
 
     # address
     if contact.address:
-        lines.append(f"{" "*4}{Fore.GREEN}Address{Fore.RESET}:",
-                     f"{contact.address}")
+        lines.append(f"{" "*4}{Fore.GREEN}Address{Fore.RESET}:{contact.address}")
 
     # tags
     if contact.tags:
@@ -147,8 +148,8 @@ def print_all(book: AddressBook):
 @input_error
 def search_by(args: list[str], book: AddressBook):
     if len(args) < 1:
-        raise IndexError((f"Usage: {Fore.YELLOW}find-by{Fore.RESET}",
-                         "<search-by> <keywoard>"))
+        raise IndexError(f"Usage: {Fore.YELLOW}find-by{Fore.RESET}",
+                         "<search-by> <keywoard>")
 
     field = args[0].strip().lower()
     keywoard = args[1].strip().lower()
@@ -396,7 +397,7 @@ def main():
             name = args[0]
             try:
                 contact = book.get_contact(name)
-                if contact is None:
+                if not contact:
                     print(f"Contact '{name}' not found.")
                 else:
                     print(format_contact(contact))

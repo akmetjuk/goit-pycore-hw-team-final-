@@ -2,9 +2,11 @@ from collections import UserDict
 from datetime import datetime, timedelta
 import pickle
 from ContactHelper.models.enums import SortedKey
-from src.ContactHelper.models.contact import Contact
-from src.ContactHelper.utils import validate_phone_number
 import logging
+from ContactHelper.models.contact import Contact
+from ContactHelper.utils import validate_phone_number
+#from src.ContactHelper.models.contact import Contact
+#from src.ContactHelper.utils import validate_phone_number
 
 
 logger = logging.getLogger("ContactHelper")
@@ -160,7 +162,8 @@ class AddressBook(UserDict):
         if key == SortedKey.NAME:
             sortedkey = lambda contact: contact._name.lower()
         elif key == SortedKey.BIRTHDAY:
-            sortedkey = lambda contact: contact.birthday if contact.birthday else datetime.max
+            max_date = datetime.max.strftime("%Y-%m-%d")
+            sortedkey = lambda contact: contact.birthday if contact.birthday else max_date
         elif key == SortedKey.TAG:
             sortedkey = lambda contact: sorted(contact.tags)
         elif key == SortedKey.CREATED_AT:
