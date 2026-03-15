@@ -1,7 +1,8 @@
 from datetime import date, datetime
 from colorama import Fore, init
 from .fields import Email, Phone, Birthday, Address, Notes
-from src.ContactHelper.utils import validate_phone_number, validate_email
+from ContactHelper.utils import validate_phone_number, validate_email
+#from src.ContactHelper.utils import validate_phone_number, validate_email
 
 
 class Contact:
@@ -108,7 +109,7 @@ class Contact:
     def phones(self) -> list[Phone] | None:
         """Повертає список телефонних номерів контакту або порожній список,
         якщо телефонні номери не встановлені"""
-        return self._phones
+        return self._phones if len(self._phones) > 0 else None
 
     def find_phone(self, phone: str) -> Phone | None:
         """
@@ -118,13 +119,12 @@ class Contact:
         Returns:
             Знайдений об'єкт Phone або None, якщо не знайдено
         """
-        try:
-            phone: str = validate_phone_number(phone)
-            for p in self.phones:
-                if p.value == phone:
-                    return p
-        except:
+        phone: str = validate_phone_number(phone)
+        if not phone or not self.phones:
             return None
+        for p in self.phones:
+            if p.value == phone:
+                return p
 
     def remove_phone(self, phone: str) -> bool:
         '''Видаляє телефонний номер з контакту
