@@ -4,9 +4,7 @@ import pickle
 from ContactHelper.models.enums import SortedKey
 import logging
 from ContactHelper.models.contact import Contact
-from ContactHelper.utils import validate_phone_number
-#from src.ContactHelper.models.contact import Contact
-#from src.ContactHelper.utils import validate_phone_number
+from ContactHelper.utils import validate_phone_number, add_year
 
 
 logger = logging.getLogger("ContactHelper")
@@ -128,14 +126,11 @@ class AddressBook(UserDict):
             if not contact.birthday:
                 continue
             birthday = datetime.strptime(contact.birthday, "%Y-%m-%d").date()
-            birthday = birthday.replace(year=today.year)
-
-            # Якщо день народження вже минув цього року,
-            # розглядаємо наступний рік
-            if birthday < today:
-                birthday = birthday.replace(year=birthday.year + 1)
-
-            days_between: int = birthday.toordinal() - today.toordinal()
+            birthday_this_year = add_year(birthday, int(today.year - birthday.year))
+            birthday = birthday_this_year
+            if birthday_this_year < today:
+                birthday = add_year(birthday_this_year)
+            days_between: int = (birthday - today).days
             # Розглядаємо дні народження на наступні days днів
             if days_between > days:
                 continue

@@ -8,6 +8,8 @@ ToDo:
 електронна пошта відповідає формату user@example.com
 '''
 import re
+import datetime
+import calendar
 
 
 def validate_phone_number(phone_number: str) -> str:
@@ -58,3 +60,21 @@ def validate_email(email: str) -> str:
         raise ValueError("Email must be in format user@example.com")
 
     return email
+
+
+def add_year(date: datetime.date, increment: int = 1) -> datetime.date:
+    """Додає 1 рік до дати з врахуванням високосного року.
+    Якщо дата - 29 лютого і наступний рік не високосний,
+    повертає 28 лютого наступного року.
+    Args:
+        date (datetime.date): Дата
+        increment (int): Збільшити рік на значення increment.
+        За замовчанням = 1
+    Returns:
+        datetime.date: Нова дата з доданим роком
+    """
+    next_year = date.year + increment
+    if date.month == 2 and date.day == 29 and not calendar.isleap(next_year):
+        return datetime.date(next_year, 2, 28)
+    else:
+        return date.replace(year=next_year)

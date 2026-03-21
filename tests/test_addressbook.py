@@ -136,6 +136,22 @@ def test_upcoming_birthdays():
     assert upcome_db[2].name == "Mike#3"
     assert upcome_db[3].name == "Geralt#4"
     
+def test_leap_year_birthdays():
+    book: AddressBook = AddressBook()
+    # Контакт, народжений у високосний рік на 29 лютого
+    book.add_contact(name="LeapBorn", birthday="2000-02-29")  # 2000 - високосний
+    # Контакт, народжений не у високосний рік на 28 лютого
+    book.add_contact(name="NonLeapBorn", birthday="2001-02-28")  # 2001 - не високосний
+    # Ще один контакт з 29 лютого, але народжений у не високосний рік
+    book.add_contact(name="AnotherLeap", birthday="1999-02-28")  # 1999 - не високосний
+    
+    upcoming = book.get_upcoming_birthdays(days=365)
+    print("Upcoming birthdays:")
+    for contact in upcoming:
+        print(f"{contact.name}: {contact.birthday}")
+    # Очікуємо, що всі контакти будуть включені, оскільки їх дні народження в наступному році
+    assert len(upcoming) == 3
+    
 def test_find_by_name():
     book: AddressBook = AddressBook()
     book.add_contact(name="Mike#3")
